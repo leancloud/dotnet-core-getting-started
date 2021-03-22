@@ -4,44 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using LeanCloud.Engine;
 
 namespace web {
     public class Startup {
-        private readonly string[] LCEngineCORSMethods = new string[] {
-            "PUT",
-            "GET",
-            "POST",
-            "DELETE",
-            "OPTIONS"
-        };
-        private readonly string[] LCEngineCORSHeaders = new string[] {
-            "Content-Type",
-            "X-AVOSCloud-Application-Id",
-            "X-AVOSCloud-Application-Key",
-            "X-AVOSCloud-Application-Production",
-            "X-AVOSCloud-Client-Version",
-            "X-AVOSCloud-Request-Sign",
-            "X-AVOSCloud-Session-Token",
-            "X-AVOSCloud-Super-Key",
-            "X-LC-Hook-Key",
-            "X-LC-Id",
-            "X-LC-Key",
-            "X-LC-Prod",
-            "X-LC-Session",
-            "X-LC-Sign",
-            "X-LC-UA",
-            "X-Requested-With",
-            "X-Uluru-Application-Id",
-            "X-Uluru-Application-Key",
-            "X-Uluru-Application-Production",
-            "X-Uluru-Client-Version",
-            "X-Uluru-Session-Token"
-        };
-
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
@@ -50,13 +19,16 @@ namespace web {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddCors(options => {
-                options.AddDefaultPolicy(builder => {
-                    builder.AllowAnyOrigin()
-                        .WithMethods(LCEngineCORSMethods)
-                        .WithHeaders(LCEngineCORSHeaders);
-                });
-            });
+            LCEngine.Initialize(services);
+
+            //services.AddCors(options => {
+            //    options.AddDefaultPolicy(builder => {
+            //        builder.AllowAnyOrigin()
+            //            .AllowAnyMethod()
+            //            .AllowAnyHeader();
+            //    });
+            //});
+
             services.AddControllersWithViews();
         }
 
@@ -74,7 +46,11 @@ namespace web {
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
 
             app.UseAuthorization();
 

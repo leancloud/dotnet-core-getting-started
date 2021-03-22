@@ -2,7 +2,6 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using LeanCloud;
-using LeanCloud.Engine;
 
 namespace web {
     public class Program {
@@ -22,7 +21,6 @@ namespace web {
                         break;
                 }
             };
-            LCEngine.Initialize();
 
             CreateHostBuilder(args).Build().Run();
         }
