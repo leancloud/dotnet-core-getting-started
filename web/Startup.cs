@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using LeanCloud;
 using LeanCloud.Engine;
 
 namespace web {
@@ -19,6 +20,21 @@ namespace web {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            LCLogger.LogDelegate = (level, log) => {
+                switch (level) {
+                    case LCLogLevel.Debug:
+                        Console.WriteLine($"[DEBUG] {log}");
+                        break;
+                    case LCLogLevel.Warn:
+                        Console.WriteLine($"[WARN] {log}");
+                        break;
+                    case LCLogLevel.Error:
+                        Console.WriteLine($"[ERROR] {log}");
+                        break;
+                    default:
+                        break;
+                }
+            };
             LCEngine.Initialize(services);
 
             services.AddControllersWithViews();
@@ -38,11 +54,7 @@ namespace web {
 
             app.UseRouting();
 
-            app.UseCors(builder => {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            });
+            app.UseCors();
 
             app.UseAuthorization();
 
