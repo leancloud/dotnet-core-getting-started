@@ -21,14 +21,6 @@ namespace web {
         public void ConfigureServices(IServiceCollection services) {
             LCEngine.Initialize(services);
 
-            //services.AddCors(options => {
-            //    options.AddDefaultPolicy(builder => {
-            //        builder.AllowAnyOrigin()
-            //            .AllowAnyMethod()
-            //            .AllowAnyHeader();
-            //    });
-            //});
-
             services.AddControllersWithViews();
         }
 
