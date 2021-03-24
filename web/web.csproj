@@ -19,11 +19,16 @@
   <ItemGroup>
     <None Remove="Libs\Storage.pdb" />
     <None Remove="Libs\Storage.pdb" />
+    <None Remove="Libs\Engine.dll" />
+    <None Remove="Libs\Engine.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Libs\Storage.deps.json" />
     <Content Remove="Libs\Storage.deps.json" />
     <Content Remove="Libs\Storage.deps.json" />
+    <Content Remove="Libs\Engine.deps.json" />
+    <Content Remove="Libs\Engine.deps.json" />
+    <Content Remove="Libs\Engine.deps.json" />
     <Content Remove="Libs\Engine.deps.json" />
     <Content Remove="Libs\Engine.deps.json" />
   </ItemGroup>
