@@ -49,8 +49,12 @@ namespace web {
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            bool IsDevelopment = Environment.GetEnvironmentVariable("LEANCLOUD_APP_ENV") == "development";
             app.UseStaticFiles(new StaticFileOptions {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "release", "wwwroot"))
+                FileProvider = IsDevelopment ?
+                    new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot")) :
+                    new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "release", "wwwroot"))
             });
 
             app.UseRouting();
