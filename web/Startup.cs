@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 using LeanCloud;
 using LeanCloud.Engine;
 
@@ -19,11 +20,18 @@ namespace web {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            services.AddLogging(builder => {
+                builder
+                    .AddFilter("Microsoft", LogLevel.Error)
+                    .AddFilter("System", LogLevel.Error)
+                    .AddConsole();
+            });
+
             LCLogger.LogDelegate = (level, log) => {
                 switch (level) {
-                    case LCLogLevel.Debug:
-                        Console.WriteLine($"[DEBUG] {log}");
-                        break;
+                    //case LCLogLevel.Debug:
+                    //    Console.WriteLine($"[DEBUG] {log}");
+                    //    break;
                     case LCLogLevel.Warn:
                         Console.WriteLine($"[WARN] {log}");
                         break;
